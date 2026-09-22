@@ -564,7 +564,11 @@ if (root.classList.contains('wgl')) {
       const count = raw.length / 2;
       const out = new Float32Array(N * 3);
       for (let i = 0; i < N; i++) {
-        const p = (i % count) * 2;
+        // Evenly map N particles across ALL sampled glyph points.
+        // (i % count) alone would only cover the first N raster rows —
+        // top-to-bottom sampling — shearing the bottom off any text
+        // whose sample count exceeds N.)
+        const p = Math.floor((i * count) / N) * 2;
         out[i * 3]     = (raw[p] - cxr) * scale + (Math.random() - 0.5) * 0.06;
         out[i * 3 + 1] = (cyr - raw[p + 1]) * scale + (Math.random() - 0.5) * 0.06;
         out[i * 3 + 2] = (Math.random() - 0.5) * 0.9;
@@ -632,7 +636,7 @@ if (root.classList.contains('wgl')) {
         await Promise.all([document.fonts.load(fontSpec(240)), document.fonts.ready]);
       } catch (e) { /* procedural shapes only */ }
       const t0 = (() => { try { return buildText("WINTER '26", 22); } catch (e) { return null; } })();
-      const t1 = (() => { try { return buildText('POLARIS', 22); } catch (e) { return null; } })();
+      const t1 = (() => { try { return buildText('NADEEM KHAN', 22); } catch (e) { return null; } })();
       if (t0) shapes.push({ name: 'winter26',  pts: t0, btn: document.querySelector('.finale-morph [data-morph="winter26"]') });
       shapes.push({ name: 'diamond',  pts: diamond, btn: document.querySelector('.finale-morph [data-morph="diamond"]') });
       shapes.push({ name: 'snowflake', pts: snow,  btn: document.querySelector('.finale-morph [data-morph="snowflake"]') });
