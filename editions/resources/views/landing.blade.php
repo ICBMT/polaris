@@ -410,6 +410,6 @@
   <a href="#top" class="to-top magnetic" data-hover aria-label="Back to top">↑</a>
 
   <script src="{{ asset('js/site.js') }}" defer></script>
-  <script type="module" src="{{ asset('js/three-scene.js') }}"></script>
+  <script type="module" src="{{ asset('js/three-scene.js') }}?v=2"></script>
 </body>
 </html>
